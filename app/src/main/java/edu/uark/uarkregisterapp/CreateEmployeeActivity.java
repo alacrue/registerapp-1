@@ -13,11 +13,7 @@ import android.widget.EditText;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import edu.uark.uarkregisterapp.models.api.Employee;
-import edu.uark.uarkregisterapp.models.api.EmployeeLogin;
 import edu.uark.uarkregisterapp.models.api.enums.EmployeeApiRequestStatus;
 import edu.uark.uarkregisterapp.models.api.enums.EmployeeClassification;
 import edu.uark.uarkregisterapp.models.api.services.EmployeeService;
@@ -53,7 +49,6 @@ public class CreateEmployeeActivity extends AppCompatActivity {
 			return;
 		}
 
-		//TODO: hash the password.
 		(new CreateEmployeeTask()).execute(
 			(new Employee()).
 				setActive(true).
@@ -126,12 +121,6 @@ public class CreateEmployeeActivity extends AppCompatActivity {
 		@Override
 		protected Employee doInBackground(Employee... employees) {
 			if (employees.length > 0) {
-				try {
-					MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-					messageDigest.update(employees[0].getPassword().getBytes());
-					employees[0].setPassword(new String(messageDigest.digest()));
-				} catch (NoSuchAlgorithmException e) { }
-
 				return (new EmployeeService()).putEmployee(employees[0]);
 			} else {
 				return (new Employee()).

@@ -11,9 +11,6 @@ import android.widget.EditText;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import edu.uark.uarkregisterapp.models.api.ActiveEmployeeCounts;
 import edu.uark.uarkregisterapp.models.api.Employee;
 import edu.uark.uarkregisterapp.models.api.EmployeeLogin;
@@ -122,12 +119,6 @@ public class LandingActivity extends AppCompatActivity {
 		@Override
 		protected Employee doInBackground(EmployeeLogin... employeeLogins) {
 			if (employeeLogins.length > 0) {
-				try {
-					MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-					messageDigest.update(employeeLogins[0].getPassword().getBytes());
-					employeeLogins[0].setPassword(new String(messageDigest.digest()));
-				} catch (NoSuchAlgorithmException e) { }
-
 				return (new EmployeeService()).logIn(employeeLogins[0]);
 			} else {
 				return (new Employee()).
